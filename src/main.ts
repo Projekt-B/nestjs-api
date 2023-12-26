@@ -7,7 +7,6 @@ import {
     HttpStatus,
     ValidationError,
     ValidationPipe,
-    VersioningType,
 } from '@nestjs/common';
 
 async function bootstrap() {
@@ -15,10 +14,10 @@ async function bootstrap() {
     const config = app.get<ConfigService>(ConfigService);
     const { httpAdapter } = app.get(HttpAdapterHost);
 
-    app.enableVersioning({
-        type: VersioningType.URI,
-    });
-
+    //==================================================================================================================
+    // Validation: transforms default output into "Record<param_name: errors[]>
+    // Purpose: help frontend render error (arrays) under the approprite form input
+    //==================================================================================================================
     app.useGlobalPipes(
         new ValidationPipe({
             exceptionFactory: (errors: ValidationError[]) => {
@@ -38,6 +37,10 @@ async function bootstrap() {
         }),
     );
 
+    //==================================================================================================================
+    // This deals with Prisma exception thrown when unique key constraint is hit, i.e. email is already taken
+    // It renders user-friendly error message
+    //==================================================================================================================
     app.useGlobalFilters(
         new PrismaClientExceptionFilter(httpAdapter, {
             P2000: HttpStatus.BAD_REQUEST,

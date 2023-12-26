@@ -10,18 +10,20 @@ export class NotifyProcessor {
 
     @Process('employee:created')
     created(job: Job) {
-        this.mailer.sendMail({
-            to: job.data?.employee?.email,
-            from: 'noreply@mydomain.com',
-            subject: 'Your account details for ACME corp!',
-            template: 'employee.created.html.hbs',
-            context: {
-                company: 'ACME Company',
-                email: job.data?.employee?.email,
-                first_name: job.data?.employee?.first_name,
-                last_name: job.data?.employee?.last_name,
-                password: job.data?.password?.password,
-            },
+        this.safeRun(() => {
+            this.mailer.sendMail({
+                to: job.data?.employee?.email,
+                from: 'noreply@mydomain.com',
+                subject: 'Your account details for ACME corp!',
+                template: 'employee.created.html.hbs',
+                context: {
+                    company: 'ACME Company',
+                    email: job.data?.employee?.email,
+                    first_name: job.data?.employee?.first_name,
+                    last_name: job.data?.employee?.last_name,
+                    password: job.data?.password?.password,
+                },
+            });
         });
     }
 
@@ -55,5 +57,13 @@ export class NotifyProcessor {
                 last_name: job.data?.employee?.last_name,
             },
         });
+    }
+
+    safeRun(work: Function) {
+        try {
+            work();
+        } catch (e) {
+            console.log(e);
+        }
     }
 }

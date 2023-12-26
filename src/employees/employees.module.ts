@@ -5,6 +5,7 @@ import { PrismaService } from '../prisma.service';
 import { CryptoService } from '../crypto/crypto.service';
 import { NotifyModule } from './notify/notify.module';
 import { BullModule } from '@nestjs/bull';
+import { QueueNamesEnum } from '../queues/queue.names.enum';
 
 @Module({
     imports: [

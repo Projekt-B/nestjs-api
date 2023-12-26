@@ -8,6 +8,7 @@ import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { ConfigService } from '@nestjs/config';
 import { FindEmployeesDto } from './dto/find-employees.dto';
+import { QueueNamesEnum } from '../queues/queue.names.enum';
 
 @Injectable()
 export class EmployeesService {
@@ -29,10 +30,15 @@ export class EmployeesService {
         );
 
         // Notify the user, use queue to take care of email sending
-        await this.enqueue('employee:created', {
+        await this.enqueue(QueueNamesEnum.JOB_EMPLOYEE_CREATED, {
             createEmployeeDto,
             password,
         });
+
+        // await this.enqueue(QueueNamesEnum.JOB_EMPLOYEE_CREATED, {
+        //     createEmployeeDto,
+        //     password,
+        // });
 
         return entity;
     }
@@ -100,7 +106,11 @@ export class EmployeesService {
         });
 
         // Notify about account update
-        await this.enqueue('employee:updated', {
+        // await this.enqueue('employee:updated', {
+        //     employee: without(employee, ['username', 'auth_password']),
+        // });
+
+        await this.enqueue(QueueNamesEnum.JOB_EMPLOYEE_UPDATED, {
             employee: without(employee, ['username', 'auth_password']),
         });
 
@@ -115,7 +125,10 @@ export class EmployeesService {
         });
 
         // Notify about account deletion
-        await this.enqueue('employee:deleted', { employee: employee });
+        //await this.enqueue('employee:deleted', { employee: employee });
+        await this.enqueue(QueueNamesEnum.JOB_EMPLOYEE_DELETED, {
+            employee: employee,
+        });
 
         return without(employee, ['username', 'auth_password']);
     }
