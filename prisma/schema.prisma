@@ -1,0 +1,98 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model employees {
+  id                    Int                     @id @default(autoincrement()) @db.UnsignedInt
+  status_id             Int?                    @db.UnsignedInt
+  username              Bytes                   @unique(map: "username") @db.Binary(64)
+  auth_password         String?                 @db.Char(128)
+  first_name            String?                 @db.VarChar(255)
+  last_name             String                  @db.VarChar(255)
+  email                 String                  @db.VarChar(255)
+  metadata              Json?                   @default(dbgenerated("(json_object())"))
+  created_at            DateTime?               @db.Timestamp(0)
+  updated_at            DateTime?               @db.Timestamp(0)
+  deleted_at            DateTime?               @db.Timestamp(0)
+  employees_status      employees_status?       @relation(fields: [status_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_status_id")
+  employees2departments employees2departments[]
+  employees2job_titles  employees2job_titles[]
+
+  @@index([status_id], map: "fk_status_id")
+}
+
+model employees2departments {
+  id              Int             @id @default(autoincrement()) @db.UnsignedInt
+  employee_id     Int             @db.UnsignedInt
+  department_id   Int             @db.UnsignedInt
+  metadata        Json            @default(dbgenerated("(json_object())"))
+  created_at      DateTime?       @db.Timestamp(0)
+  job_departments job_departments @relation(fields: [department_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_department_id")
+  employees       employees       @relation(fields: [employee_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_employee_id")
+
+  @@index([department_id], map: "fk_department_id")
+  @@index([employee_id], map: "fk_employee_id")
+}
+
+model employees2job_titles {
+  id               Int        @id @default(autoincrement()) @db.UnsignedInt
+  active           Int        @default(0) @db.UnsignedTinyInt
+  employee_id      Int        @db.UnsignedInt
+  title_id         Int        @db.UnsignedInt
+  created_at       DateTime?  @db.Timestamp(0)
+  employees_status job_titles @relation(fields: [title_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_employee_to_status_id")
+  employees        employees  @relation(fields: [employee_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_employee_to_title")
+
+  @@unique([active, employee_id, title_id], map: "active")
+  @@index([title_id], map: "fk_employee_to_status_id")
+  @@index([employee_id], map: "fk_employee_to_title")
+}
+
+model employees_status {
+  id          Int         @id @db.UnsignedInt
+  title       String      @db.VarChar(255)
+  description String?     @db.Text
+  created_at  DateTime?   @db.Timestamp(0)
+  updated_at  DateTime?   @db.Timestamp(0)
+  employees   employees[]
+}
+
+model job_departments {
+  id                    Int                     @id @default(autoincrement()) @db.UnsignedInt
+  title                 String                  @db.VarChar(255)
+  description           String?                 @db.Text
+  member_count          Int                     @default(0) @db.UnsignedInt
+  created_at            DateTime?               @db.Timestamp(0)
+  updated_at            DateTime?               @db.Timestamp(0)
+  deleted_at            DateTime?               @db.Timestamp(0)
+  employees2departments employees2departments[]
+}
+
+model job_titles {
+  id                   Int                    @id @default(autoincrement()) @db.UnsignedInt
+  title                String                 @db.VarChar(255)
+  description          String?                @db.Text
+  created_at           DateTime?              @db.Timestamp(0)
+  updated_at           DateTime?              @db.Timestamp(0)
+  deleted_at           DateTime?              @db.Timestamp(0)
+  employees2job_titles employees2job_titles[]
+}
+
+view view_employees {
+  id                  Int     @id @default(0) @db.UnsignedInt
+  status_id           Int?    @db.UnsignedInt
+  first_name          String? @db.VarChar(255)
+  last_name           String  @db.VarChar(255)
+  email               String  @db.VarChar(255)
+  metadata            Json?   @default(dbgenerated("(json_object())"))
+  department_metadata Json    @default(dbgenerated("(json_object())"))
+  status_title        String  @db.VarChar(255)
+  department_title    String  @db.VarChar(255)
+  job_title           String  @db.VarChar(255)
+}
