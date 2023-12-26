@@ -1,5 +1,6 @@
 node_moduules/
 dist/
+api
 .env
 package-lock.json
 
