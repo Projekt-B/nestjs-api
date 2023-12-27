@@ -6,7 +6,11 @@ Original task: https://github.com/the-project-b/backend-coding-challenge
 
 ### Installation
 
-### Run the project
+#### Via docker-compose
+
+#### Manual
+
+#### Run and access the project
 
 ### Selected tooling
 
@@ -20,7 +24,7 @@ Using ORM, adhering to ANSI SQL we can make the DB interchangeable
 
 #### ORM - Prisma 
 
-Reason: I was told you use Prisma so I adhered to the same tool
+Reason: adhered to the tool in use with Project B
 
 #### HTTPD - nginx
 
@@ -44,15 +48,14 @@ I used Argon2 library to handle hashing. Hashing is used to create the hash out 
 This technique allows to skip checking if emails already in use because this check can be a false positive and is insufficient. Uniqueness must be enforced on DB level.
 Thus, this project does not check whether email is taken, it inserts into the database and appropriate exception handler deals with user-friendly error message.
 
+#### Mailer - nodemailer + Mailtrap.io
+
+Reason: nodemailer is popular package for handling emails and Mailtrap.io is a good service for development related tasks with emails like checking if it arrives and how it's rendered on various devices.
+
 #### Templating engine - Handlebars
 
 Reason: Handlebars were used for simple email templating, due to the fact it's super-popular and I needed simple variable interpolation for this task.
 I kept to what I know works.
-
-
-#### Mailer - nodemailer + Mailtrap.io
-
-Reason: nodemailer is popular package for handling emails and Mailtrap.io is a good service for development related tasks with emails like checking if it arrives and how it's rendered on various devices.
 
 ### Scaling
 
