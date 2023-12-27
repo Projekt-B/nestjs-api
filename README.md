@@ -1,5 +1,8 @@
 # Employee Management API
 
+Disclaimer: it works on my pc. :)
+
+## Table of Contents
 ## Table of Contents
 
 - [Employee Management API](#employee-management-api)
@@ -43,16 +46,95 @@ You can run the project via docker-compose which comes with dependent services O
 
 #### Via docker-compose
 
+Close any docker containers you have running, use the following project:
 
+https://github.com/Projekt-B/docker 
+
+```bash
+git clone git@github.com:Projekt-B/docker.git
+cd docker && ./install.sh
+```
 
 #### Manual
 
+1. Clone the API project
+2. **copy .env file** to configure everything: https://github.com/Projekt-B/docker/blob/main/.env-projectb (rename it to .env in the API project)
+3. prepare MySQL database and run migrations. [Why MySQL: explained further in this text](#rdbms---mysql)
+
+```bash
+git clone git@github.com:Projekt-B/nestjs-api.git
+cd nestjs-api 
+npm install && npm run migrate && npm run db:seed
+```
 
 #### Run and access the project
 
-### API
+If there's no reverse proxy, project runs at http://localhost:3500
 
+### HTTP API
 
+http://localhost:3500
+
+#### Crete employee 
+
+`POST /api/v1/employees`
+
+payload:
+```json
+{
+  "status_id": 1,
+  "title_id": 1,
+  "department_id": 1,
+  "email": "nikola.bursac@proton.me",
+  "first_name": "Nikola",
+  "last_name": "B."
+}
+```
+
+#### Update employee 
+
+`PATCH /api/v1/employees/:id`
+
+payload:
+```json
+{
+  "status_id": 1,
+  "title_id": 1,
+  "department_id": 1,
+  "email": "nikola.b.12243@proton.me",
+  "first_name": "Nikola",
+  "last_name": "B."
+}
+```
+
+#### Read employee data
+
+`GET /api/v1/employees/:id`
+
+#### List employees
+
+`GET /api/v1/employees`
+
+Supported querystring params:
+
+```typescript
+export default interface QuerystringParams
+{
+    email?: string
+    first_name?: string
+    last_name?: string
+    title_id?: number
+    department_id?: number
+    status_id?: string
+    page?: number
+    limit?: number
+}
+
+```
+
+#### Delete employee
+
+`DELETE /api/v1/employees/:id`
 
 ### Selected tooling
 
