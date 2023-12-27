@@ -2,7 +2,8 @@
 
 Disclaimer: it works on my pc. :)
 
-## Table of Contents
+Disclaimer #2: although I value tests, I was able to complete only basic validation and crypto service tests.
+
 ## Table of Contents
 
 - [Employee Management API](#employee-management-api)
