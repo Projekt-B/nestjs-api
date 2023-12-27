@@ -7,14 +7,17 @@ export class SeedService {
 
     async seedData(): Promise<void> {
         try {
+            console.log('Seeding employees_status...');
             await this.prisma.employees_status.createMany({
                 data: this.provideEmployeeStatusData(),
             });
 
+            console.log('Seeding job_titles...');
             await this.prisma.job_titles.createMany({
                 data: this.provideJobTitleData(),
             });
 
+            console.log('Seeding job_departments...');
             await this.prisma.job_departments.createMany({
                 data: this.provideDepartmentData(),
             });
