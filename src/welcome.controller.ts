@@ -1,10 +1,10 @@
-import { Controller, All } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
 @Controller({
     path: '/',
 })
 export class WelcomeController {
-    @All()
+    @Get()
     index() {
         return `Hello world`;
     }
