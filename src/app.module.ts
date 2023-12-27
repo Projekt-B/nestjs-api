@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { providePrismaClientExceptionFilter } from 'nestjs-prisma';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { WelcomeController } from './welcome.controller';
 import { EmployeesModule } from './employees/employees.module';
 import { BullModule } from '@nestjs/bull';
 import { MailerModule } from '@nestjs-modules/mailer';
@@ -69,6 +70,7 @@ import nodemailerConfig from '../config/nodemailer.config';
         //==============================================================================================================
         EmployeesModule,
     ],
+    controllers: [WelcomeController],
     providers: [
         PrismaService,
         CryptoService,
