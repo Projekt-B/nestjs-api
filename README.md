@@ -1,5 +1,38 @@
 # Employee Management API
 
+## Table of Contents
+
+- [Employee Management API](#employee-management-api)
+    - [Introduction](#introduction)
+        - [Installation](#installation)
+            - [Via docker-compose](#via-docker-compose)
+            - [Manual](#manual)
+            - [Run and access the project](#run-and-access-the-project)
+    - [Selected tooling](#selected-tooling)
+        - [RDBMS - MySQL](#rdbms---mysql)
+        - [ORM - Prisma](#orm---prisma)
+        - [HTTPD - nginx](#httpd---nginx)
+        - [Queue - Bull + Redis](#queue---bull--redis)
+        - [Node.js](#nodejs)
+        - [Hashing - Argon2](#hashing---argon2)
+        - [Mailer - nodemailer + Mailtrap.io](#mailer---nodemailer--mailtrapio)
+        - [Templating engine - Handlebars](#templating-engine---handlebars)
+    - [Why did/didn't you...](#why-diddidnt-you)
+        - [Use view instead of ORM to search for employees](#use-view-instead-of-orm-to-search-for-employees)
+        - [Test everything?](#test-everything)
+        - [Split Queue processor in a different process](#split-queue-processor-in-a-different-process)
+        - [Remove notification queue from employee module, within filesystem](#remove-notification-queue-from-employee-module-within-filesystem)
+    - [If this was production, what would you do](#if-this-was-production-what-would-you-do)
+        - [GraphQL](#graphql)
+        - [Implement authentication](#implement-authentication)
+        - [Authentication + authorization microservice](#authentication--authorization-microservice)
+        - [Queue](#queue)
+        - [Database/model](#databasemodel)
+        - [i18n](#i18n)
+        - [Exception handling / logging / observability](#exception-handling--logging--observability)
+        - [Deployment](#deployment)
+        - [Running node](#running-node)
+
 ## Introduction
 
 Original task: https://github.com/the-project-b/backend-coding-challenge
