@@ -1,4 +1,5 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { PrismaClientExceptionFilter } from 'nestjs-prisma';
@@ -36,6 +37,16 @@ async function bootstrap() {
             stopAtFirstError: true,
         }),
     );
+
+    const swaggerConfig = new DocumentBuilder()
+        .setTitle('Employees')
+        .setDescription('Employees API')
+        .setVersion('1.0')
+        .addTag('employees')
+        .build();
+
+    const document = SwaggerModule.createDocument(app, swaggerConfig);
+    SwaggerModule.setup('api', app, document);
 
     //==================================================================================================================
     // This deals with Prisma exception thrown when unique key constraint is hit, i.e. email is already taken
