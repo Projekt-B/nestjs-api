@@ -1,1 +1,3 @@
-export FindAllParams
+export const FindAllParamsEmpty = () => {
+    return {};
+};

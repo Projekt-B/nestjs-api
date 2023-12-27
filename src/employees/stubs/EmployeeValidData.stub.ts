@@ -1,6 +1,6 @@
 import { CreateEmployeeDto } from '../dto/create-employee.dto';
 
-export const EmployeeValidData = (): CreateEmployeeDto => {
+export const EmployeeValidDataStub = (): CreateEmployeeDto => {
     return {
         status_id: 1,
         department_id: 1,
