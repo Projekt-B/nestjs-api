@@ -15,19 +15,19 @@ FROM
       (
         (
           (
-            `project_b`.`employees` `e`
-            JOIN `project_b`.`employees_status` `s` ON((`s`.`id` = `e`.`status_id`))
+            `employees` `e`
+            JOIN `employees_status` `s` ON((`s`.`id` = `e`.`status_id`))
           )
-          JOIN `project_b`.`employees2departments` `e2d` ON((`e2d`.`employee_id` = `e`.`id`))
+          JOIN `employees2departments` `e2d` ON((`e2d`.`employee_id` = `e`.`id`))
         )
-        JOIN `project_b`.`employees2job_titles` `e2t` ON(
+        JOIN `employees2job_titles` `e2t` ON(
           (
             (`e2t`.`employee_id` = `e`.`id`)
             AND (`e2t`.`active` = 1)
           )
         )
       )
-      JOIN `project_b`.`job_departments` `d` ON((`d`.`id` = `e2d`.`department_id`))
+      JOIN `job_departments` `d` ON((`d`.`id` = `e2d`.`department_id`))
     )
-    JOIN `project_b`.`job_titles` `jt` ON((`jt`.`id` = `e2t`.`title_id`))
+    JOIN `job_titles` `jt` ON((`jt`.`id` = `e2t`.`title_id`))
   )
