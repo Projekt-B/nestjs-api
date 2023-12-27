@@ -5,7 +5,6 @@ import { PrismaService } from '../prisma.service';
 import { CryptoService } from '../crypto/crypto.service';
 import { NotifyModule } from './notify/notify.module';
 import { BullModule } from '@nestjs/bull';
-import { QueueNamesEnum } from '../queues/queue.names.enum';
 
 @Module({
     imports: [
@@ -15,6 +14,6 @@ import { QueueNamesEnum } from '../queues/queue.names.enum';
         }),
     ],
     controllers: [EmployeesController],
-    providers: [EmployeesService, PrismaService, CryptoService],
+    providers: [PrismaService, EmployeesService, CryptoService],
 })
 export class EmployeesModule {}

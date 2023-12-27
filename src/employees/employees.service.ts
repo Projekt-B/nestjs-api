@@ -35,11 +35,6 @@ export class EmployeesService {
             password,
         });
 
-        // await this.enqueue(QueueNamesEnum.JOB_EMPLOYEE_CREATED, {
-        //     createEmployeeDto,
-        //     password,
-        // });
-
         return entity;
     }
 
@@ -105,11 +100,6 @@ export class EmployeesService {
             data: data,
         });
 
-        // Notify about account update
-        // await this.enqueue('employee:updated', {
-        //     employee: without(employee, ['username', 'auth_password']),
-        // });
-
         await this.enqueue(QueueNamesEnum.JOB_EMPLOYEE_UPDATED, {
             employee: without(employee, ['username', 'auth_password']),
         });
@@ -125,7 +115,6 @@ export class EmployeesService {
         });
 
         // Notify about account deletion
-        //await this.enqueue('employee:deleted', { employee: employee });
         await this.enqueue(QueueNamesEnum.JOB_EMPLOYEE_DELETED, {
             employee: employee,
         });
