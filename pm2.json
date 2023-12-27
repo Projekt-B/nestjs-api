@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "nestjs-test-app",
+      "script": "npm",
+      "args" : "run start:dev"
+    }
+  ]
+}
