@@ -39,11 +39,18 @@ Original task: https://github.com/the-project-b/backend-coding-challenge
 
 ### Installation
 
+You can run the project via docker-compose which comes with dependent services OR you can try to install it manually
+
 #### Via docker-compose
+
+
 
 #### Manual
 
+
 #### Run and access the project
+
+### API
 
 
 
