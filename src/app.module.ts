@@ -7,6 +7,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { CryptoService } from './crypto/crypto.service';
 import { PrismaService } from './prisma.service';
+import { SeedService } from './seed.service';
 import appConfig from '../config/app.config';
 import redisConfig from '../config/redis.config';
 import notifyQueueConfig from '../config/notify.queue.config';
@@ -72,6 +73,7 @@ import nodemailerConfig from '../config/nodemailer.config';
         PrismaService,
         CryptoService,
         providePrismaClientExceptionFilter(),
+        SeedService,
     ],
     exports: [BullModule],
 })
