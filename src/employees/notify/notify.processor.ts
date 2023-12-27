@@ -2,13 +2,14 @@ import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
+import { QueueNamesEnum } from '../../queues/queue.names.enum';
 
 @Injectable()
 @Processor('notify')
 export class NotifyProcessor {
     constructor(private readonly mailer: MailerService) {}
 
-    @Process('employee:created')
+    @Process(QueueNamesEnum.JOB_EMPLOYEE_CREATED)
     created(job: Job) {
         this.safeRun(() => {
             this.mailer.sendMail({
@@ -27,7 +28,7 @@ export class NotifyProcessor {
         });
     }
 
-    @Process('employee:updated')
+    @Process(QueueNamesEnum.JOB_EMPLOYEE_UPDATED)
     updated(job: Job) {
         this.mailer.sendMail({
             to: job.data?.employee?.email,
@@ -43,7 +44,7 @@ export class NotifyProcessor {
         });
     }
 
-    @Process('employee:deleted')
+    @Process(QueueNamesEnum.JOB_EMPLOYEE_DELETED)
     deleted(job: Job) {
         this.mailer.sendMail({
             to: job.data?.employee?.email,
@@ -59,6 +60,7 @@ export class NotifyProcessor {
         });
     }
 
+    // @todo: implement logging, retry mechanic, concurrency protection
     safeRun(work: Function) {
         try {
             work();
